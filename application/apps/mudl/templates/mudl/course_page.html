@@ -1,0 +1,235 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .course {
+        margin-left: 30px;
+    }
+    .all-courses {
+        background-color: aquamarine;
+    }
+    .card:hover {
+      background-color: var(--accent-color);
+    }
+    .card-text {
+        max-width: 700px;
+    }
+    .hexlet-collapse-switch-text::before {
+        content: attr(data-title-show);
+    }
+</style>
+{% endblock style %}
+
+
+{% block content %}
+<div class="container padding-large">
+    <div class="all-courses mb-3">Все курсы</div>
+    <div class="row">
+        <div class="col-3">
+            <turbo-frame id="programs-filter" target="_top"><form data-controller="filter-form" data-turbo-frame="filter-results" data-turbo-action="replace" class="simple_form new_q" id="new_q" novalidate="novalidate" action="/courses" accept-charset="UTF-8" method="get"><div class="p-3 p-lg-0">
+                <div class="mb-4 pb-4 border-bottom">
+                <div class="fs-5 mb-3">Тип обучения</div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="" checked="checked" name="q[kind]" id="q_kind_">
+                <label class="form-check-label" for="q_kind_">Любой</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="professions" name="q[kind]" id="q_kind_professions">
+                <label class="form-check-label" for="q_kind_professions">Профессии</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="pre_courses" name="q[kind]" id="q_kind_pre_courses">
+                <label class="form-check-label" for="q_kind_pre_courses">Подготовительные курсы</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="courses" name="q[kind]" id="q_kind_courses">
+                <label class="form-check-label" for="q_kind_courses">Курсы</label>
+                </div>
+                </div>
+                <div class="mb-4 pb-4 border-bottom">
+                <div class="ps-0 d-flex form-check form-switch">
+                <span class="me-2 bi bi-patch-check text-success" data-bs-content="Учим, как составлять резюме, сопроводительное, проходить собеседование. Даем продакшен-опыт в Open Source проектах и помогаем с поиском стажировок
+                " data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="hover"></span>
+                <label class="string optional text-body text-nowrap me-4" for="q_employment">С трудоустройством</label>
+                <div class="form-check">
+                <input name="q[employment]" type="hidden" value="0" autocomplete="off"><input class="form-check-input" type="checkbox" value="1" name="q[employment]" id="q_employment">
+                </div>
+                </div>
+                </div>
+                <div class="mb-4 pb-4 border-bottom">
+                <div class="fs-5 mb-3">Уровень сложности</div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="" checked="checked" name="q[audience]" id="q_audience_">
+                <label class="form-check-label" for="q_audience_">Любой</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="for_beginners" name="q[audience]" id="q_audience_for_beginners">
+                <label class="form-check-label" for="q_audience_for_beginners">Для новичков</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="for_programmers" name="q[audience]" id="q_audience_for_programmers">
+                <label class="form-check-label" for="q_audience_for_programmers">Для специалистов</label>
+                </div>
+                </div>
+                <div class="mb-4 pb-3 border-bottom">
+                <div class="fs-5 mb-3">Длительность</div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="" checked="checked" name="q[duration]" id="q_duration_">
+                <label class="form-check-label" for="q_duration_">Любая</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="0-2" name="q[duration]" id="q_duration_0-2">
+                <label class="form-check-label" for="q_duration_0-2">До 2 недель</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="3-24" name="q[duration]" id="q_duration_3-24">
+                <label class="form-check-label" for="q_duration_3-24">От 2 недель до 6 месяцев</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" type="radio" value="25-1000" name="q[duration]" id="q_duration_25-1000">
+                <label class="form-check-label" for="q_duration_25-1000">От 6 месяцев</label>
+                </div>
+                </div>
+                <div class="mb-4 pb-4 border-bottom">
+                <div class="fs-5 mb-3">Технологии</div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="" checked="checked" name="q[subject]" id="q_subject_">
+                <label for="q_subject_">Любая</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="4" name="q[subject]" id="q_subject_4">
+                <label class="form-check-label" for="q_subject_4">Backend-разработка</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="3" name="q[subject]" id="q_subject_3">
+                <label class="form-check-label" for="q_subject_3">Frontend-разработка</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="5" name="q[subject]" id="q_subject_5">
+                <label class="form-check-label" for="q_subject_5">Создание сайтов</label>
+                </div>
+                <div class="collapse" id="technologies-collapse">
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="9" name="q[subject]" id="q_subject_9">
+                <label class="form-check-label" for="q_subject_9">Тестирование</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="1" name="q[subject]" id="q_subject_1">
+                <label class="form-check-label" for="q_subject_1">Аналитика данных</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="6" name="q[subject]" id="q_subject_6">
+                <label class="form-check-label" for="q_subject_6">Интенсивные курсы</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="7" name="q[subject]" id="q_subject_7">
+                <label class="form-check-label" for="q_subject_7">DevOps</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="2" name="q[subject]" id="q_subject_2">
+                <label class="form-check-label" for="q_subject_2">Веб-разработка</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="18" name="q[subject]" id="q_subject_18">
+                <label class="form-check-label" for="q_subject_18">Математика для программистов</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="12" name="q[subject]" id="q_subject_12">
+                <label class="form-check-label" for="q_subject_12">JavaScript</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="8" name="q[subject]" id="q_subject_8">
+                <label class="form-check-label" for="q_subject_8">Python</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="11" name="q[subject]" id="q_subject_11">
+                <label class="form-check-label" for="q_subject_11">Java</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="13" name="q[subject]" id="q_subject_13">
+                <label class="form-check-label" for="q_subject_13">PHP</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="15" name="q[subject]" id="q_subject_15">
+                <label class="form-check-label" for="q_subject_15">Ruby</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="14" name="q[subject]" id="q_subject_14">
+                <label class="form-check-label" for="q_subject_14">Go</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="16" name="q[subject]" id="q_subject_16">
+                <label class="form-check-label" for="q_subject_16">HTML</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="17" name="q[subject]" id="q_subject_17">
+                <label class="form-check-label" for="q_subject_17">SQL</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="10" name="q[subject]" id="q_subject_10">
+                <label class="form-check-label" for="q_subject_10">Git</label>
+                </div>
+                <div class="form-check">
+                <input class="form-check-input" data-action="jquery:change->filter-form#submit" type="radio" value="56" name="q[subject]" id="q_subject_56">
+                <label class="form-check-label" for="q_subject_56">Бесплатные курсы</label>
+                </div>
+                </div>
+                <div class="pt-3">
+                <a aria-controls="challenges-collapse" aria-expanded="false" class="link-body-emphasis link-offset-2 hexlet-collapse-rotate-arrow-90 hexlet-collapse-switch-text" data-bs-toggle="collapse" data-title-hide="Меньше технологий" data-title-show="Еще 16 технологий" href="#technologies-collapse" role="button">
+                <span class="bi bi-chevron-right small ms-2"></span>
+                </a>
+                </div>
+                </div>
+                <div class="mb-4 pb-lg-3">
+                <div class="fs-5 mb-3">Поиск</div>
+                <div class="mb-2 search optional q_search_text"><input class="form-control string search optional border-0 border-secondary border-opacity-50 border-bottom bg-transparent pb-2 mb-4 rounded-0" autocomplete="off" data-action="debounced:input->filter-form#submit" placeholder="Ключевое слово" type="search" name="q[search_text]" id="q_search_text"></div>
+                </div>
+                <div class="mb-2 hidden q_new_version"><input class="form-control hidden" value="show" autocomplete="off" type="hidden" name="q[new_version]" id="q_new_version"></div>
+                </div>
+                <div class="bg-body-tertiary p-3 p-lg-0 border-primary border-2 border-top border-lg-0 position-sticky bottom-0 position-lg-relative">
+                <input type="submit" name="commit" value="Показать результат" class="btn btn-primary btn-sm rounded-0 w-100 py-3 fw-light mb-2" data-disable-with="Показать результат">
+                <a class="btn btn-link btn-sm text-decoration-none fw-light w-100 px-2 d-lg-none" href="/courses">Очистить</a>
+                </div>
+                </form>
+                </turbo-frame>
+        </div>
+        <div class="col-9">
+            {% for module in modules %}
+                <div class="px-2 px-md-3 pe-lg-0 mb-5 mb-md-6">
+                    <div class="display-4 fw-normal lh-md mb-4 pb-3">
+                        {{ module.title }}
+                        <span class="text-body-tertiary">({{ module.courses.count }})</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="fs-5 fw-light">Обучающие программы по различным IT-направлениям — с нуля до полноценных проектов. Для тех, кто хочет получить новую профессию, собрать портфолио и найти работу</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="courses-list mb-5">
+                    {% for course in module.courses.all %}
+                    <div class="mt-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <div class="row mb-4 pb-3">
+                                    <div class="col-sm-8">
+                                        <div class="text-body-secondary fw-light">{{ course.description }}</div>
+                                    </div>
+                                </div>
+                                <p class="card-text">Duration: 10 weeks</p>
+                                <a href="{% url 'view-course' course.slug %}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="mt-5 mx-2 mx-md-3">
+                        <button aria-controls="professions-collapse" aria-expanded="true" class="btn btn-outline-primary rounded-0 py-3 px-4 hexlet-collapse-switch-text" data-bs-target="#professions-collapse" data-bs-toggle="collapse" data-title-hide="Показать меньше" data-title-show="Показать больше"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

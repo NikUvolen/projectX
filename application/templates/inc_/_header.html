@@ -1,0 +1,159 @@
+{% load static %}
+
+<nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4 ">
+    <div class="container-fluid px-md-5">
+      <div class="main-logo">
+        <a href="{% url 'main_page' %}">
+          <img src="{% static 'img/logo.png' %}" alt="logo" class="img-fluid">
+        </a>
+      </div>
+
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+        <div class="offcanvas-header justify-content-center">
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body justify-content-between">
+
+          <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 ps-lg-5 mb-0">
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-main" data-bs-toggle="dropdown" aria-expanded="false">
+                Главная
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-main">
+                <li><a class="dropdown-item" href="#">Портал CSS</a></li>
+                <li><a class="dropdown-item" href="#">Пробный урок</a></li>
+                <li><a class="dropdown-item" href="#">Оплатить обучение</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-snap" data-bs-toggle="dropdown" aria-expanded="false">
+                Snap
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-snap">
+                <li><a class="dropdown-item" href="#">Snap!</a></li>
+                <li><a class="dropdown-item" href="#">Snapp!</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-course" data-bs-toggle="dropdown" aria-expanded="false">
+                Курсы
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-course">
+                <li><a class="dropdown-item" href="{% url 'course-page' %}">Все Курсы</a></li>
+                <li><a class="dropdown-item" href="#">Искать курс</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-social_media" data-bs-toggle="dropdown" aria-expanded="false">
+                Соц. сети
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-social_media">
+                <li><a class="dropdown-item" href="#">VK</a></li>
+                <li><a class="dropdown-item" href="#">Telegram</a></li>
+              </ul>
+            </div>
+
+            <!-- <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-pages" data-bs-toggle="dropdown" aria-expanded="false">
+                Страницы
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-pages">
+                <li><a class="dropdown-item" href="#">Course</a></li>
+                <li><a class="dropdown-item" href="#">Teacher</a></li>
+                <li><a class="dropdown-item" href="#">Category</a></li>
+                <li><a class="dropdown-item" href="#">Tes</a></li>
+                <li><a class="dropdown-item" href="#">Course</a></li>
+                <li><a class="dropdown-item" href="#">Teacher</a></li>
+              </ul>
+            </div> -->
+
+            <div class="dropdown">
+              <a class="dropdown-toggle nav-link mx-3" href="#" id="dropdown-social_media" data-bs-toggle="dropdown" aria-expanded="false">
+                Контакты
+              </a>
+            
+              <ul class="dropdown-menu" aria-labelledby="dropdown-social_media">
+                <li><a class="dropdown-item" href="#">VK</a></li>
+                <li><a class="dropdown-item" href="#">Telegram</a></li>
+              </ul>
+            </div>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3 active">Наставники</a>
+            </li>
+
+            <!-- <li class="nav-item">
+              <a href="#" class="nav-link mx-3 active">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Snap</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Курсы</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Соц.сети</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Страницы</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Контакты</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-3">Наставники</a>
+            </li> -->
+          </ul>
+
+          <div class="d-none d-lg-flex align-items-end">
+            <ul class="d-flex justify-content-end list-unstyled m-0">
+              {% if not request.user.is_authenticated %}
+              <li>
+                <a href="{% url 'login' %}" class="mx-3">
+                  <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
+                </a>
+              </li>
+              {% else %}
+              <li>
+                <a href="{% url 'user_profile' request.user.pk %}" class="btn btn-outline-secondary mr-2">{{ request.user.username }}</a>
+              </li>
+              <li>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-secondary mr-2">Выйти</button>
+                </form>
+              </li>
+              {% endif %}
+
+              <li>
+                <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
+                  aria-controls="offcanvasSearch">
+                  <iconify-icon icon="tabler:search" class="fs-4"></iconify-icon>
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+</nav>
