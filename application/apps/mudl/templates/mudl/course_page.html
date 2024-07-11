@@ -18,6 +18,9 @@
     .hexlet-collapse-switch-text::before {
         content: attr(data-title-show);
     }
+    .hexlet-collapse-switch-text[aria-expanded=true]::before {
+        content: attr(data-title-hide);
+    }
 </style>
 {% endblock style %}
 
@@ -176,7 +179,7 @@
                 </div>
                 </div>
                 <div class="pt-3">
-                <a aria-controls="challenges-collapse" aria-expanded="false" class="link-body-emphasis link-offset-2 hexlet-collapse-rotate-arrow-90 hexlet-collapse-switch-text" data-bs-toggle="collapse" data-title-hide="Меньше технологий" data-title-show="Еще 16 технологий" href="#technologies-collapse" role="button">
+                    <a aria-controls="challenges-collapse" aria-expanded="false" class="link-body-emphasis link-offset-2 hexlet-collapse-rotate-arrow-90 hexlet-collapse-switch-text" data-bs-toggle="collapse" data-title-hide="Меньше технологий" data-title-show="Еще 16 технологий" href="#technologies-collapse" role="button">
                 <span class="bi bi-chevron-right small ms-2"></span>
                 </a>
                 </div>
@@ -208,7 +211,7 @@
                     </div>
                 </div>
                 <div class="courses-list mb-5">
-                    {% for course in module.courses.all %}
+                    {% for course in module.courses.all|slice:":4" %}
                     <div class="mt-2">
                         <div class="card">
                             <div class="card-body">
@@ -224,9 +227,30 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="mt-5 mx-2 mx-md-3">
-                        <button aria-controls="professions-collapse" aria-expanded="true" class="btn btn-outline-primary rounded-0 py-3 px-4 hexlet-collapse-switch-text" data-bs-target="#professions-collapse" data-bs-toggle="collapse" data-title-hide="Показать меньше" data-title-show="Показать больше"></button>
+                    <div class="collapse hide" id="{{ module.title }}-collapse">
+                        {% for course in module.courses.all|slice:"4:" %}
+                        <div class="mt-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <div class="row mb-4 pb-3">
+                                        <div class="col-sm-8">
+                                            <div class="text-body-secondary fw-light">{{ course.description }}</div>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">Duration: 10 weeks</p>
+                                    <a href="{% url 'view-course' course.slug %}" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
+
+                    {% if module.courses.count > 4 %}
+                    <div class="mt-5 mx-2 mx-md-3">
+                        <button aria-controls="professions-collapse" aria-expanded="false" class="btn btn-outline-primary rounded-0 py-3 px-4 hexlet-collapse-switch-text" data-bs-target="#{{ module.title }}-collapse" data-bs-toggle="collapse" data-title-hide="Показать меньше" data-title-show="Показать больше"></button>
+                    </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

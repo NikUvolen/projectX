@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 
-from .mixins import AnonymityRequiredMixin
+from application.mixins import AnonymityRequiredMixin
 from .forms import LoginForm, CustomUserCreationForm
 from .models import Profile
 from .utils import generate_token
@@ -125,9 +125,12 @@ class RegistrationView(AnonymityRequiredMixin, views.View):
 
 
 class UserProfileView(views.View):
+    # TODO: два похожих запроса к бд
+    
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(User, pk=pk)
-        user_profile = Profile.object.get(user=user)
+        user_profile = get_object_or_404(Profile, user=user)
+
         context = {
             'user': user,
             'user_profile': user_profile

@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="error padding-large">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <img src="{% static 'img/error.png' %} %}" alt="image 404">
+          <h2><b>{{ title }}</b> {{ error_message }}</h2>
+          <p>посетите главную страницу <br> возможно вы найдёте её</p>
+          <a href="{% url "main_page" %}" class="cmn-btn mt-4">На главную</a>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
